@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dear Diary 🌸</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ================= LOGIN SCREEN ================= -->
+<div id="login-screen" class="login-screen">
+  <div class="login-card">
+    <div class="login-mark">🌸</div>
+    <h1>Dear Diary</h1>
+    <p class="login-sub">Tumhari apni, chhoti si duniya — jahan har din safe rehta hai.</p>
+
+    <form id="login-form">
+      <label for="login-username">Naam</label>
+      <input type="text" id="login-username" placeholder="Jaise: Anand" required>
+
+      <label for="login-email">Gmail</label>
+      <input type="email" id="login-email" placeholder="tumhara@gmail.com" required>
+
+      <button type="submit">Diary kholo</button>
+    </form>
+    <p class="login-note">Password nahi chahiye — sirf yehi Gmail dubara daalke, kisi bhi device se apni diary wapas mil jaayegi. (Note: koi security nahi hai, yeh sirf pehchaan ke liye hai.)</p>
+  </div>
+</div>
+
+<!-- ================= APP SHELL ================= -->
+<div id="app-shell" class="app-shell" hidden>
+
+  <aside class="sidebar">
+    <div class="brand">🌸 <span>Dear Diary</span></div>
+    <nav class="nav-links">
+      <button class="nav-btn active" data-view="diary">✍️ <span>Aaj Likho</span></button>
+      <button class="nav-btn" data-view="calendar">📅 <span>Calendar</span></button>
+      <button class="nav-btn" data-view="memories">🖼️ <span>Memories</span></button>
+      <button class="nav-btn" data-view="stats">📊 <span>Stats</span></button>
+      <button class="nav-btn" data-view="profile">👤 <span>Profile</span></button>
+    </nav>
+    <div class="sidebar-footer">
+      <button id="dark-toggle" class="icon-btn" title="Dark mode">🌙</button>
+    </div>
+  </aside>
+
+  <main class="main-area">
+
+    <!-- ---------- DIARY VIEW ---------- -->
+    <section id="view-diary" class="view active">
+      <header class="view-header">
+        <div>
+          <h2 id="diary-date-label">Aaj</h2>
+          <p id="diary-date-sub" class="muted"></p>
+        </div>
+        <div class="header-actions">
+          <button id="blur-toggle" class="icon-btn" title="Blur entry">🙈</button>
+          <button id="pin-toggle" class="icon-btn" title="Pin this entry">📌</button>
+        </div>
+      </header>
+
+      <div id="prompt-box" class="prompt-box" hidden>
+        <span class="prompt-label">Aaj kya likhein?</span>
+        <p id="prompt-text"></p>
+      </div>
+
+      <div class="mood-row" id="mood-row"></div>
+
+      <textarea id="entry-textarea" placeholder="Aaj ka din kaisa raha... jo dil mein hai, likh do."></textarea>
+
+      <div class="entry-footer">
+        <input type="text" id="tags-input" placeholder="tags (comma se alag karo — jaise: dost, ghar, khushi)">
+        <div class="entry-footer-right">
+          <span id="word-count" class="muted">0 words</span>
+          <button id="save-entry-btn">Save karo</button>
+        </div>
+      </div>
+      <p id="save-status" class="save-status"></p>
+    </section>
+
+    <!-- ---------- CALENDAR VIEW ---------- -->
+    <section id="view-calendar" class="view">
+      <header class="view-header">
+        <div>
+          <h2>Calendar</h2>
+          <p class="muted">Jis din likha, wahan rang dikhega. Aaj wala din ghera hua hai.</p>
+        </div>
+        <div class="cal-nav">
+          <button id="cal-prev">‹</button>
+          <span id="cal-month-label"></span>
+          <button id="cal-next">›</button>
+        </div>
+      </header>
+      <div class="cal-weekdays">
+        <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+      </div>
+      <div id="cal-grid" class="cal-grid"></div>
+
+      <div class="search-box">
+        <input type="text" id="search-input" placeholder="🔍 apni entries mein dhoondo (word ya tag)...">
+        <div id="search-results" class="search-results"></div>
+      </div>
+
+      <div class="entries-list-wrap">
+        <h3>Saved Entries</h3>
+        <div id="entries-list" class="entries-list"></div>
+      </div>
+    </section>
+
+    <!-- ---------- MEMORIES VIEW ---------- -->
+    <section id="view-memories" class="view">
+      <header class="view-header">
+        <div>
+          <h2>Memories</h2>
+          <p class="muted">Photos jo yaad rakhne layak hain.</p>
+        </div>
+      </header>
+
+      <form id="memory-form" class="memory-form">
+        <input type="file" id="memory-file" accept="image/*" required>
+        <input type="text" id="memory-caption" placeholder="Iske baare mein kuch likho...">
+        <button type="submit">Add karo</button>
+      </form>
+      <p id="memory-status" class="save-status"></p>
+
+      <div id="memories-grid" class="memories-grid"></div>
+    </section>
+
+    <!-- ---------- STATS VIEW ---------- -->
+    <section id="view-stats" class="view">
+      <header class="view-header">
+        <div>
+          <h2>Stats</h2>
+          <p class="muted">Tumhari diary ki chhoti si kahani, numbers mein.</p>
+        </div>
+      </header>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-num" id="stat-streak">0</span>
+          <span class="stat-label">Day streak 🔥</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="stat-total">0</span>
+          <span class="stat-label">Total entries</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="stat-words">0</span>
+          <span class="stat-label">Total words likhe</span>
+        </div>
+        <div class="stat-card">
+          <span class="stat-num" id="stat-memories">0</span>
+          <span class="stat-label">Memories saved</span>
+        </div>
+      </div>
+      <button id="export-btn" class="secondary-btn">⬇️ Sab kuch export karo (.json)</button>
+    </section>
+
+    <!-- ---------- PROFILE VIEW ---------- -->
+    <section id="view-profile" class="view">
+      <header class="view-header">
+        <div>
+          <h2>Profile</h2>
+          <p class="muted">Yeh diary kiski hai.</p>
+        </div>
+      </header>
+      <div class="profile-card">
+        <div class="profile-avatar">🌸</div>
+        <h3 id="profile-username"></h3>
+        <p id="profile-email" class="muted"></p>
+        <p class="muted profile-hint">Kisi bhi device se isi Gmail se login karke, yehi diary wapas mil jaayegi.</p>
+        <button id="signout-btn" class="secondary-btn">Sign Out</button>
+      </div>
+    </section>
+
+  </main>
+
+  <nav class="mobile-tabbar">
+    <button class="nav-btn active" data-view="diary">✍️</button>
+    <button class="nav-btn" data-view="calendar">📅</button>
+    <button class="nav-btn" data-view="memories">🖼️</button>
+    <button class="nav-btn" data-view="stats">📊</button>
+    <button class="nav-btn" data-view="profile">👤</button>
+  </nav>
+
+</div>
+
+<!-- ================= VIEW MODAL (used for viewing entry / image full-size) ================= -->
+<div id="view-modal" class="modal-overlay" hidden>
+  <div class="modal-box">
+    <button id="modal-close" class="modal-close">✕</button>
+    <p id="modal-date" class="modal-date"></p>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="app.js"></script>
+</body>
+</html>
